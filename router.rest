@@ -1,0 +1,13 @@
+POST http://localhost:5000/userTask/createUserTask
+Content-Type: application/json
+
+{
+    "myTaskTitle":"1111",
+    "myTaskDescription":"learning is very important"
+}
+
+###
+
+GET http://localhost:5000/userTask/getUserTask
+
+###
