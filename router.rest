@@ -7,12 +7,12 @@ Content-Type: application/json
 }
 
 ###
-POST https://tranquil-escarpment-92025.herokuapp.com/userTask/createUserTask
+POST http://tranquil-escarpment-92025.herokuapp.com/userTask/createUserTask
 Content-Type: application/json
 
 {
-    "myTaskTitle":"....",
-    "myTaskDescription":"'''''''"
+    "myTaskTitle":"deploy to heroku",
+    "myTaskDescription":"important to connect client app with server"
 }
 
 ###
