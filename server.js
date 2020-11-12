@@ -1,6 +1,6 @@
 const express = require("express"); //importing express
 const app = express(); //making express object.
-const port = 5000;
+const port = process.env.PORT || 5000;
 // getting-started.js
 const mongoose = require("mongoose");
 mongoose.connect(
