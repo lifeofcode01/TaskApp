@@ -1,6 +1,20 @@
 const express = require("express"); //importing express
 const app = express(); //making express object.
 const port = process.env.PORT || 5000;
+const server = require("http").createServer(app);
+const UserTask = require("./models/user_task_model");
+
+const io = require("socket.io")(server);
+
+//socket io
+io.of("/api/socket").on("connect", (socket) => {
+  console.log("socket.io: User connected: ", socket.id);
+
+  socket.on("disconnect", () => {
+    console.log("socket.io: User disconnected: ", socket.id);
+  });
+});
+
 // getting-started.js
 const mongoose = require("mongoose");
 mongoose.connect(
@@ -13,9 +27,41 @@ mongoose.connect(
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
+
 db.once("open", function () {
-  console.log("hurray! We connected");
+  console.log("hurray! Mongo db connected");
+
+  console.log("initializing user task change streams");
+  const userTaskStream = UserTask.watch();
+
+  userTaskStream.on("change", (change) => {
+    switch (change.operationType) {
+      case "insert":
+        const userTask = {
+          _id: change.fullDocument._id,
+          taskTitle: change.fullDocument.taskTitle,
+          taskDescription: change.fullDocument.taskDescription,
+        };
+
+        console.log(`userTaskStream ${userTask.taskTitle}`);
+
+        io.of("/api/socket").emit("newTask", userTask);
+        break;
+
+      case "delete":
+        io.of("/api/socket").emit("deletedThought", change.documentKey._id);
+        break;
+    }
+  });
 });
+
+// //schedule deletion of thoughts at midnight
+// cron.schedule("0 0 0 * * *", async () => {
+//   await connection.collection("thoughts").drop();
+
+//   io.of("/api/socket").emit("thoughtsCleared");
+// });
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
