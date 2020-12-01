@@ -3,8 +3,8 @@ const router = express.Router();
 const UserTask = require("../models/user_task_model");
 router.post("/createUserTask", async (req, res) => {
   const userTask = new UserTask({
-    taskTitle: req.body.myTaskTitle,
-    taskDescription: req.body.myTaskDescription,
+    taskTitle: req.body.taskTitle,
+    taskDescription: req.body.taskDescription,
   });
   try {
     const newUserTask = await userTask.save();
@@ -24,10 +24,5 @@ router.get("/getUserTask", async (req, res) => {
     res.json({ msg: e });
   }
 });
-
-
-
-
-
 
 module.exports = router;

@@ -30,37 +30,7 @@ db.on("error", console.error.bind(console, "connection error:"));
 
 db.once("open", function () {
   console.log("hurray! Mongo db connected");
-
-  console.log("initializing user task change streams");
-  const userTaskStream = UserTask.watch();
-
-  userTaskStream.on("change", (change) => {
-    switch (change.operationType) {
-      case "insert":
-        const userTask = {
-          _id: change.fullDocument._id,
-          taskTitle: change.fullDocument.taskTitle,
-          taskDescription: change.fullDocument.taskDescription,
-        };
-
-        console.log(`userTaskStream ${userTask.taskTitle}`);
-
-        io.of("/api/socket").emit("newTask", userTask);
-        break;
-
-      case "delete":
-        io.of("/api/socket").emit("deletedThought", change.documentKey._id);
-        break;
-    }
-  });
 });
-
-// //schedule deletion of thoughts at midnight
-// cron.schedule("0 0 0 * * *", async () => {
-//   await connection.collection("thoughts").drop();
-
-//   io.of("/api/socket").emit("thoughtsCleared");
-// });
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
