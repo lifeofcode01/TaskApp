@@ -2,8 +2,8 @@ POST http://localhost:5000/userTask/createUserTask
 Content-Type: application/json
 
 {
-    "myTaskTitle":"aaaaaaa",
-    "myTaskDescription":"bbbbbbbbbbbb"
+    "taskTitle":"aaaaaaa",
+    "taskDescription":"bbbbbbbbbbbb"
 }
 
 ###
@@ -11,8 +11,8 @@ POST http://tranquil-escarpment-92025.herokuapp.com/userTask/createUserTask
 Content-Type: application/json
 
 {
-    "myTaskTitle":"deploy to heroku",
-    "myTaskDescription":"important to connect client app with server"
+    "taskTitle":"deploy to heroku",
+    "taskDescription":"important to connect client app with server"
 }
 
 ###
