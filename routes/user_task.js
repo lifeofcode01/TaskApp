@@ -25,4 +25,18 @@ router.get("/getUserTask", async (req, res) => {
   }
 });
 
+//updating userTask based on task id
+router.patch("/updateTask/:id", async (req, res) => {
+  try {
+    const result = await UserTask.findOneAndUpdate(
+      { _id: req.params.id }, //filter conditions
+      { $set: { taskTitle: req.body.taskTitle } }, //update value of specific field
+      { new: true } //to get new updated document back in the result
+    );
+    return res.json(result);
+  } catch (e) {
+    return res.status(500).json({ msg: e });
+  }
+});
+
 module.exports = router;

@@ -20,3 +20,14 @@ Content-Type: application/json
 GET http://localhost:5000/userTask/getUserTask
 
 ###
+
+GET http://tranquil-escarpment-92025.herokuapp.com/userTask/getUserTask
+
+###
+PATCH http://localhost:5000/userTask/updateTask/5fabdfbbbd78883ad48e8a63
+Content-Type: application/json
+
+{
+    "taskTitle":"updating done!"
+
+}
